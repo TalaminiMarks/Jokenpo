@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Jokenpo</title>
+</head>
+<body>
+    <style>
+        .list{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        span{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .player-option span{
+            color: green;
+            font-weight: bold;
+        }
+
+        .enemy-option span{
+            color: red;
+            font-weight: bold;
+        }
+
+        .player-option, .enemy-option{
+            text-align: center;
+        }
+
+        .player-option img, .enemy-option img{
+            width: 200px;
+            margin-bottom: 30px;
+            width: 50%;
+            opacity: 0.4;
+            cursor: pointer;
+        }
+
+        .resultado{
+            text-align: center;
+            font-size: 25px;
+        }
+    </style>
+    
+    <body>
+        <h1 style="text-align: center;">Pedra, Papel ou Tesoura</h1>
+        <p class="resultado"></p>
+        <hr>
+        <div class="list">
+            <div class="player-option">
+                <span>Player</span>
+                <div><img opt="papel" src="./paper.png"/></div>
+                <div><img opt="pedra" src="./rock.png"/></div>
+                <div><img opt="tesoura" src="./scisor.png"/></div>
+            </div>
+            <div class="enemy-option">
+                <span>Enemy</span>
+                <div><img opt="papel" src="./paper.png"/></div>
+                <div><img opt="pedra" src="./rock.png"/></div>
+                <div><img opt="tesoura" src="./scisor.png"/></div>
+            </div>
+        </div><!--list-->
+    </body>
+
+    <script>
+        var elementos = document.querySelectorAll('.player-option img');
+        var playerOpt = "";
+        var enemyOpt = "";
+
+        function enemyOpacity(){
+            const enemy = document.querySelectorAll('.enemy-option img')
+            for(var i = 0; i < enemy.length; i++){
+                enemy[i].style.opacity = 0.4;
+            }
+        }
+
+        function enemyPlay(){
+            let rand = Math.floor(Math.random()*3);
+            const enemy = document.querySelectorAll('.enemy-option div')
+            for(var i = 0; i < enemy.length; i++){
+                if(rand == i){
+                    enemyOpacity();
+                    enemy[i].childNodes[0].style.opacity = 1;
+                    enemyOpt = enemy[i].childNodes[0].getAttribute('opt');
+                }
+            }
+        }
+
+        function resetOpacity(){
+            for(var i = 0; i < elementos.length; i++){
+                elementos[i].style.opacity = 0.4;
+            }
+        }
+        var resultado = document.querySelector('.resultado')
+        function result(){
+            if(playerOpt == "papel"){
+                if(enemyOpt == "papel"){
+                    resultado.innerHTML = "Empate";
+                    resultado.style.color = "black";
+                }
+                else if(enemyOpt == "pedra"){
+                    resultado.innerHTML = "Ganhou";
+                    resultado.style.color = "green";
+                }
+                else if(enemyOpt == "tesoura"){
+                    resultado.innerHTML = "Perdeu";
+                    resultado.style.color = "red";
+                }
+            }
+
+            if(playerOpt == "pedra"){
+                if(enemyOpt == "pedra"){
+                    resultado.innerHTML = "Empate";
+                    resultado.style.color = "black";
+                }
+                else if(enemyOpt == "tesoura"){
+                    resultado.innerHTML = "Ganhou";
+                    resultado.style.color = "green";
+                }
+                else if(enemyOpt == "papel"){
+                    resultado.innerHTML = "Perdeu";
+                    resultado.style.color = "red";
+                }
+            }
+
+            if(playerOpt == "tesoura"){
+                if(enemyOpt == "tesoura"){
+                    resultado.innerHTML = "Empate";
+                    resultado.style.color = "black";
+                }
+                else if(enemyOpt == "papel"){
+                    resultado.innerHTML = "Ganhou";
+                    resultado.style.color = "green";
+                }
+                else if(enemyOpt == "pedra"){
+                    resultado.innerHTML = "Perdeu";
+                    resultado.style.color = "red"
+                }
+            }
+        }
+
+        for(var i = 0; i < elementos.length; i++){
+            elementos[i].addEventListener('click', (t)=>{
+                resetOpacity();
+                t.target.style.opacity = 1;
+                playerOpt = t.target.getAttribute('opt')
+                enemyPlay();
+                result();
+            })
+        }
+    </script>
+</body>
+</html>
